@@ -1,0 +1,35 @@
+@using Maps.Places
+@inherits MapAutocompleteComponent
+@implements System.IDisposable
+
+<input @ref="@Element" class="@CssClass" id="@Id" type="text" >
+
+@code
+{
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public AutocompleteOptions Options { get; set; }
+
+    [Parameter]
+    public Action OnAfterInit { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    private ElementReference Element { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await InitAsync(Element, Options);
+
+        OnAfterInit?.Invoke();
+    }
+
+    protected override bool ShouldRender()
+    {
+        return false;
+    }
+    
+}
